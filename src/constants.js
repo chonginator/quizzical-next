@@ -3,16 +3,25 @@ export const TRIVIA_API_BASE_URL = "https://opentdb.com/api.php?";
 export const TRIVIA_API_RATE_LIMIT_IN_SECONDS = 5;
 
 export const NUMBER_OF_QUESTIONS_OPTIONS = [10, 20, 30, 40, 50];
-export const QUESTION_DIFFICULTY_OPTIONS = ["easy", "medium", "hard"];
-export const QUESTION_TYPE_OPTIONS = ["multiple", "boolean"];
+export const QUESTION_DIFFICULTIES = [
+  "Any Difficulty",
+  "Easy",
+  "Medium",
+  "Hard",
+];
+export const QUESTION_TYPES = ["Any Type", "Multiple", "Boolean"];
+
+export const DEFAULT_TRIVIA_CATEGORY = { id: 0, name: "Any Category" };
+export const DEFAULT_NUMBER_OF_QUESTIONS = NUMBER_OF_QUESTIONS_OPTIONS[0];
+export const DEFAULT_QUESTION_DIFFICULTY = QUESTION_DIFFICULTIES[0];
+export const DEFAULT_QUESTION_TYPE = QUESTION_TYPES[0];
+
+export const DEFAULT_NUMBER_OF_ANSWERS = 4;
 
 export const NUMBER_OF_CATEGORY_TOGGLE_SKELETONS = 20;
 export const NUMBER_OF_QUESTION_AMOUNT_TOGGLE_SKELETONS = 5;
 export const NUMBER_OF_DIFFICULTY_TOGGLE_SKELETONS = 4;
 export const NUMBER_OF_QUESTION_TYPE_TOGGLE_SKELETONS = 3;
-
-export const DEFAULT_NUMBER_OF_QUESTIONS = NUMBER_OF_QUESTIONS_OPTIONS[0];
-export const DEFAULT_NUMBER_OF_ANSWERS = 4;
 
 export const COLOURS = {
   "--colour-primary-50": "hsl(231, 42%, 90%)",

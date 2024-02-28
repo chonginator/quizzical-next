@@ -1,0 +1,23 @@
+.wrapper {
+  padding: 2rem 1rem;
+}
+
+.maxWidthWrapper {
+  width: 100%;
+  max-width: 768px;
+  margin: 0 auto;
+}
+
+.yellowBlob {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: -1;
+}
+
+.blueBlob {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+}

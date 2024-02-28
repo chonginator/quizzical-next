@@ -1,0 +1,19 @@
+.loadingQuestion {
+  min-height: 1.8rem;
+  background-color: var(--colour-primary-100);
+  border-radius: 10px;
+}
+
+.toggleGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9em;
+}
+
+.loadingToggle {
+  min-width: 75px;
+  min-height: 31px;
+  border-color: transparent;
+  background-color: var(--colour-gray-100);
+  cursor: auto;
+}

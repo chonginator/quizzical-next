@@ -1,0 +1,9 @@
+.wrapper {
+  min-height: 100svh;
+  display: grid;
+  place-content: center;
+}
+
+.errorMessage {
+  font-family: var(--font-family-secondary);
+}

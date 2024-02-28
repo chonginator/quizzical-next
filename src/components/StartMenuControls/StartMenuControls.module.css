@@ -1,0 +1,39 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.heading {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-family: var(--font-family-primary);
+  font-weight: 700;
+}
+
+.toggleGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9em;
+}
+
+.startButton {
+  font-family: var(--font-family-secondary);
+  font-weight: 500;
+  background-color: var(--colour-primary-500);
+  color: var(--colour-gray-50);
+  border: none;
+  border-radius: 0.9375em;
+  padding: 0.5625em 1.125em;
+  cursor: pointer;
+  text-decoration: none;
+
+  display: block;
+  margin-top: 1em;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1em 2.5em;
+}
+
+.startButton:disabled {
+  background-color: var(--colour-gray-300);
+}
