@@ -1,0 +1,25 @@
+.wrapper {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.errorMessage {
+  font-family: var(--font-family-secondary);
+}
+
+.button {
+  flex-shrink: 0;
+  font-family: var(--font-family-secondary);
+  font-weight: 500;
+  background-color: var(--colour-primary-500);
+  color: var(--colour-gray-50);
+  border: none;
+  border-radius: 0.9375em;
+  padding: 0.5625em 1.125em;
+  cursor: pointer;
+  text-decoration: none;
+}

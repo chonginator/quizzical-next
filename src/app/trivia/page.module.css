@@ -8,7 +8,7 @@
 .toggleRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.9em;
+  gap: 0.75rem;
 }
 
 .toggleCorrect:disabled {
@@ -25,7 +25,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 0.9em;
+  gap: 1rem;
   margin-top: 1.2em;
 
   @media (min-width: 768px) {
@@ -40,7 +40,7 @@
 
 .buttonGroup {
   display: flex;
-  gap: 0.9em;
+  gap: 0.75rem;
 }
 
 .button {
@@ -58,4 +58,8 @@
 
 .button:disabled {
   background-color: var(--colour-gray-300);
+}
+
+.playAgainButton {
+  width: 9rem;
 }

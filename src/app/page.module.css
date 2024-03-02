@@ -9,9 +9,3 @@
   font-size: 1.875rem;
   line-height: 2.25rem;
 }
-
-.toggleGroup {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.9em;
-}

@@ -10,9 +10,13 @@ import ToggleGroup, { ToggleGroupItem } from "@/components/ToggleGroup";
 
 import styles from "./page.module.css";
 import Link from "next/link";
+import TriviaError from "./TriviaError";
+import clsx from "clsx";
 
 function Trivia() {
-  const { triviaApiUrl } = React.useContext(TriviaApiConfigContext);
+  const { rateLimitSecondsLeft, resetRateLimitSecondsLeft, triviaApiUrl } =
+    React.useContext(TriviaApiConfigContext);
+
   const [isGameOver, setIsGameOver] = React.useState(false);
   const [status, setStatus] = React.useState("idle");
   const [questions, setQuestions] = React.useState(null);
@@ -20,32 +24,36 @@ function Trivia() {
   const fetchQuestions = React.useCallback(
     async function () {
       setStatus("loading");
-      const res = await fetch(triviaApiUrl);
-      const data = await res.json();
-
-      if (data.response_code === 0) {
-        setStatus("success");
-        const formattedQuestions = formatQuestions(data.results);
-        setQuestions(formattedQuestions);
-      } else {
+      try {
+        const res = await fetch(triviaApiUrl);
+        const data = await res.json();
+        if (data.response_code === 0) {
+          setStatus("success");
+          const formattedQuestions = formatQuestions(data.results);
+          setQuestions(formattedQuestions);
+        } else {
+          setStatus("error");
+        }
+      } catch (error) {
         setStatus("error");
-        throw new Error("Failed to fetch trivia questions");
       }
+
+      resetRateLimitSecondsLeft();
     },
-    [triviaApiUrl],
+    [resetRateLimitSecondsLeft, triviaApiUrl],
   );
 
   React.useEffect(() => {
     if (!triviaApiUrl) {
-      throw new Error("Failed to fetch trivia questions");
+      setStatus("error");
     }
 
-    try {
-      fetchQuestions();
-    } catch (error) {
-      throw new Error("Failed to fetch trivia questions");
-    }
-  }, [fetchQuestions, triviaApiUrl]);
+    fetchQuestions();
+  }, [fetchQuestions, resetRateLimitSecondsLeft, triviaApiUrl]);
+
+  if (status === "error") {
+    return <TriviaError />;
+  }
 
   return (
     <>
@@ -115,8 +123,13 @@ function Trivia() {
               You scored: {score}/{questions?.length} correct answers
             </p>
             <div className={styles.buttonGroup}>
-              <button className={styles.button} onClick={handlePlayAgain}>
-                Play again
+              <button
+                className={clsx(styles.button, styles.playAgainButton)}
+                onClick={handlePlayAgain}
+                disabled={rateLimitSecondsLeft}
+              >
+                Play again{" "}
+                {rateLimitSecondsLeft > 0 && `(${rateLimitSecondsLeft})`}
               </button>
               <Link className={styles.button} href="/">
                 Menu

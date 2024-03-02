@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import React from "react";
 
@@ -15,6 +16,8 @@ import {
 import styles from "./StartMenuControls.module.css";
 
 function StartMenuControls({ triviaCategories }) {
+  const router = useRouter();
+
   const {
     categoryId,
     setCategoryId,
@@ -27,7 +30,13 @@ function StartMenuControls({ triviaCategories }) {
 
     questionType,
     setQuestionType,
+
+    rateLimitSecondsLeft,
   } = React.useContext(TriviaApiConfigContext);
+
+  function handleStartTrivia() {
+    router.push("/trivia");
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -91,9 +100,16 @@ function StartMenuControls({ triviaCategories }) {
         </div>
       </ToggleGroup>
 
-      <Link href="/trivia" className={styles.startButton}>
+      {/* <Link href="/trivia" className={styles.startButton}>
         Start quiz
-      </Link>
+      </Link> */}
+      <button
+        className={styles.startButton}
+        onClick={handleStartTrivia}
+        disabled={rateLimitSecondsLeft}
+      >
+        Start quiz {rateLimitSecondsLeft > 0 && `(${rateLimitSecondsLeft})`}
+      </button>
     </div>
   );
 }

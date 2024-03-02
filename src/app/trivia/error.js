@@ -1,18 +1,10 @@
 "use client";
 
 import React from "react";
-import styles from "./error.module.css";
+import TriviaError from "./TriviaError";
 
-function TriviaError({ error }) {
-  React.useEffect(() => {
-    console.error(error);
-  }, [error]);
-
-  return (
-    <div className={styles.wrapper}>
-      <p className={styles.errorMessage}>Oops, something went wrong!</p>
-    </div>
-  );
+function TriviaErrorBoundary() {
+  return <TriviaError />;
 }
 
-export default TriviaError;
+export default TriviaErrorBoundary;

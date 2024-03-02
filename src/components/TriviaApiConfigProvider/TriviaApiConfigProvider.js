@@ -8,6 +8,7 @@ import {
   DEFAULT_QUESTION_DIFFICULTY,
   DEFAULT_QUESTION_TYPE,
   TRIVIA_API_BASE_URL,
+  TRIVIA_API_RATE_LIMIT_IN_SECONDS,
 } from "@/constants";
 
 export const TriviaApiConfigContext = React.createContext();
@@ -26,6 +27,32 @@ function TriviaApiConfigProvider({ children }) {
   );
 
   const [questionType, setQuestionType] = React.useState(DEFAULT_QUESTION_TYPE);
+
+  const [rateLimitSecondsLeft, setRateLimitSecondsLeft] = React.useState(null);
+
+  const resetRateLimitSecondsLeft = React.useCallback(() => {
+    setRateLimitSecondsLeft(TRIVIA_API_RATE_LIMIT_IN_SECONDS);
+  }, []);
+
+  const decrementRateLimitSecondsLeft = React.useCallback(() => {
+    setRateLimitSecondsLeft(Math.max(0, rateLimitSecondsLeft - 1));
+  }, [rateLimitSecondsLeft]);
+
+  React.useEffect(() => {
+    if (!rateLimitSecondsLeft) {
+      return;
+    }
+
+    const intervalId = window.setInterval(() => {
+      decrementRateLimitSecondsLeft();
+    }, 1000);
+
+    return () => window.clearInterval(intervalId);
+  }, [
+    decrementRateLimitSecondsLeft,
+    rateLimitSecondsLeft,
+    resetRateLimitSecondsLeft,
+  ]);
 
   const categorySearchParam =
     categoryId === DEFAULT_TRIVIA_CATEGORY.id ? null : `category=${categoryId}`;
@@ -57,6 +84,10 @@ function TriviaApiConfigProvider({ children }) {
 
   const value = React.useMemo(() => {
     return {
+      rateLimitSecondsLeft,
+      resetRateLimitSecondsLeft,
+      decrementRateLimitSecondsLeft,
+
       categoryId,
       setCategoryId,
 
@@ -71,7 +102,16 @@ function TriviaApiConfigProvider({ children }) {
 
       triviaApiUrl,
     };
-  }, [categoryId, difficulty, numOfQuestions, questionType, triviaApiUrl]);
+  }, [
+    rateLimitSecondsLeft,
+    resetRateLimitSecondsLeft,
+    decrementRateLimitSecondsLeft,
+    categoryId,
+    numOfQuestions,
+    difficulty,
+    questionType,
+    triviaApiUrl,
+  ]);
 
   return (
     <TriviaApiConfigContext.Provider value={value}>
