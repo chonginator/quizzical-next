@@ -1,7 +1,6 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import React from "react";
 
 import { TriviaApiConfigContext } from "@/components/TriviaApiConfigProvider";
@@ -100,13 +99,10 @@ function StartMenuControls({ triviaCategories }) {
         </div>
       </ToggleGroup>
 
-      {/* <Link href="/trivia" className={styles.startButton}>
-        Start quiz
-      </Link> */}
       <button
         className={styles.startButton}
         onClick={handleStartTrivia}
-        disabled={rateLimitSecondsLeft}
+        disabled={rateLimitSecondsLeft > 0}
       >
         Start quiz {rateLimitSecondsLeft > 0 && `(${rateLimitSecondsLeft})`}
       </button>

@@ -1,5 +1,4 @@
 import { TRIVIA_API_CATEGORIES_URL } from "@/constants";
-
 import StartMenuControls from "@/components/StartMenuControls";
 
 import styles from "./page.module.css";

@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Cookies from "js-cookie";
 
 import {
   DEFAULT_TRIVIA_CATEGORY,
@@ -13,7 +14,10 @@ import {
 
 export const TriviaApiConfigContext = React.createContext();
 
-function TriviaApiConfigProvider({ children }) {
+function TriviaApiConfigProvider({
+  rateLimitSecondsLeft: savedRateLimitSecondsLeft,
+  children,
+}) {
   const [categoryId, setCategoryId] = React.useState(
     DEFAULT_TRIVIA_CATEGORY.id,
   );
@@ -28,14 +32,26 @@ function TriviaApiConfigProvider({ children }) {
 
   const [questionType, setQuestionType] = React.useState(DEFAULT_QUESTION_TYPE);
 
-  const [rateLimitSecondsLeft, setRateLimitSecondsLeft] = React.useState(null);
+  const [rateLimitSecondsLeft, setRateLimitSecondsLeft] = React.useState(
+    savedRateLimitSecondsLeft,
+  );
+
+  React.useEffect(() => {
+    const savedRateLimitSecondsLeft = Cookies.get("rateLimitSecondsLeft") || 0;
+    setRateLimitSecondsLeft(savedRateLimitSecondsLeft);
+  }, []);
 
   const resetRateLimitSecondsLeft = React.useCallback(() => {
+    Cookies.set("rateLimitSecondsLeft", TRIVIA_API_RATE_LIMIT_IN_SECONDS, {
+      expires: 1000,
+    });
     setRateLimitSecondsLeft(TRIVIA_API_RATE_LIMIT_IN_SECONDS);
   }, []);
 
   const decrementRateLimitSecondsLeft = React.useCallback(() => {
-    setRateLimitSecondsLeft(Math.max(0, rateLimitSecondsLeft - 1));
+    const nextRateLimitSecondsLeft = Math.max(0, rateLimitSecondsLeft - 1);
+    Cookies.set("rateLimitSecondsLeft", nextRateLimitSecondsLeft);
+    setRateLimitSecondsLeft(nextRateLimitSecondsLeft);
   }, [rateLimitSecondsLeft]);
 
   React.useEffect(() => {

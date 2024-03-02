@@ -1,7 +1,7 @@
+import { cookies } from "next/headers";
 import clsx from "clsx";
 
 import TriviaApiConfigProvider from "@/components/TriviaApiConfigProvider";
-
 import { primaryFont, secondaryFont } from "./fonts";
 import { COLOURS } from "@/constants";
 
@@ -14,6 +14,9 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  const savedRateLimitSecondsLeft = cookies().get("rateLimitSecondsLeft");
+  const rateLimitSecondsLeft = savedRateLimitSecondsLeft?.value || 0;
+
   return (
     <html
       lang="en"
@@ -21,7 +24,7 @@ export default function RootLayout({ children }) {
       style={COLOURS}
     >
       <body>
-        <TriviaApiConfigProvider>
+        <TriviaApiConfigProvider rateLimitSecondsLeft={rateLimitSecondsLeft}>
           <div className={styles.wrapper}>
             <div className={styles.maxWidthWrapper}>
               {children}
