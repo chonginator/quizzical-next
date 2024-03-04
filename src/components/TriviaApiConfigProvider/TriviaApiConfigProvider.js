@@ -36,11 +36,6 @@ function TriviaApiConfigProvider({
     savedRateLimitSecondsLeft,
   );
 
-  React.useEffect(() => {
-    const savedRateLimitSecondsLeft = Cookies.get("rateLimitSecondsLeft") || 0;
-    setRateLimitSecondsLeft(savedRateLimitSecondsLeft);
-  }, []);
-
   const resetRateLimitSecondsLeft = React.useCallback(() => {
     Cookies.set("rateLimitSecondsLeft", TRIVIA_API_RATE_LIMIT_IN_SECONDS, {
       expires: 1000,
