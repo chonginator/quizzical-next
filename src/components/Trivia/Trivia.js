@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import React from "react";
 
 import { TriviaApiConfigContext } from "@/components/TriviaApiConfigProvider";
@@ -11,18 +10,17 @@ import TriviaLoading from "./TriviaLoading";
 import { formatQuestions, scrollToTop } from "@/helpers/file.helpers";
 import ToggleGroup, { ToggleGroupItem } from "@/components/ToggleGroup";
 
-import styles from "./page.module.css";
+import styles from "./Trivia.module.css";
 import clsx from "clsx";
-import Cookies from "js-cookie";
+import Link from "next/link";
 
-function Trivia({ questions: savedQuestions }) {
-  const router = useRouter();
+function Trivia() {
   const { rateLimitSecondsLeft, resetRateLimitSecondsLeft, triviaApiUrl } =
     React.useContext(TriviaApiConfigContext);
 
   const [isGameOver, setIsGameOver] = React.useState(false);
   const [status, setStatus] = React.useState("idle");
-  const [questions, setQuestions] = React.useState(savedQuestions);
+  const [questions, setQuestions] = React.useState(null);
 
   const fetchQuestions = React.useCallback(
     async function () {
@@ -34,7 +32,6 @@ function Trivia({ questions: savedQuestions }) {
           setStatus("success");
           const formattedQuestions = formatQuestions(data.results);
           setQuestions(formattedQuestions);
-          Cookies.set("questions", JSON.stringify(formattedQuestions));
         } else {
           setStatus("error");
         }
@@ -52,20 +49,13 @@ function Trivia({ questions: savedQuestions }) {
       setStatus("error");
     }
 
-    if (savedQuestions) {
-      return;
-    }
-
     fetchQuestions();
-  }, [fetchQuestions, savedQuestions, triviaApiUrl]);
+
+    return () => {};
+  }, [fetchQuestions, triviaApiUrl]);
 
   if (status === "error") {
     return <TriviaError />;
-  }
-
-  function handleGoToMenu() {
-    Cookies.remove("questions");
-    router.push("/");
   }
 
   return (
@@ -144,9 +134,9 @@ function Trivia({ questions: savedQuestions }) {
                 Play again{" "}
                 {rateLimitSecondsLeft > 0 && `(${rateLimitSecondsLeft})`}
               </button>
-              <button className={styles.button} onClick={handleGoToMenu}>
+              <Link href="/" className={styles.button}>
                 Menu
-              </button>
+              </Link>
             </div>
           </>
         ) : (
@@ -168,7 +158,6 @@ function Trivia({ questions: savedQuestions }) {
       selectedAnswer: answer,
     });
     setQuestions(nextQuestions);
-    Cookies.set("questions", JSON.stringify(nextQuestions));
   }
 
   function handlePlayAgain() {
@@ -178,4 +167,6 @@ function Trivia({ questions: savedQuestions }) {
   }
 }
 
+export { default as TriviaError } from "./TriviaError";
+export { default as TriviaLoading } from "./TriviaLoading";
 export default Trivia;

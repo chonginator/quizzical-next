@@ -3,6 +3,8 @@ import StartMenuControls from "@/components/StartMenuControls";
 
 import styles from "./page.module.css";
 
+export const dynamic = "force-static";
+
 async function Home() {
   const res = await fetch(TRIVIA_API_CATEGORIES_URL);
   if (!res.ok) {

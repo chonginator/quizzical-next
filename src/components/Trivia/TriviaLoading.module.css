@@ -13,7 +13,7 @@
 .loadingToggle {
   min-width: 75px;
   min-height: 31px;
-  border-color: transparent;
-  background-color: var(--colour-gray-100);
+  border-color: transparent !important;
+  background-color: var(--colour-gray-100) !important;
   cursor: auto;
 }

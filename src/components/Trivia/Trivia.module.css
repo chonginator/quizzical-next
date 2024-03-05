@@ -12,12 +12,12 @@
 }
 
 .toggleCorrect:disabled {
-  background-color: var(--colour-success);
-  color: var(--colour-primary-700);
+  background-color: var(--colour-success) !important;
+  color: var(--colour-primary-700) !important;
 }
 
 .toggleIncorrect:disabled {
-  background-color: var(--colour-error);
+  background-color: var(--colour-error) !important;
 }
 
 .footer {
